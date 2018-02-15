@@ -1,14 +1,19 @@
 // ************************ dependences ************************
-const b24handlers = require('../index.js');
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
+const b24lib = new require('../index.js');
+const b24botApi = new b24lib.B24botApi();
+
+console.log(b24botApi);
 
 // ************************ settings ************************
 let clientId = "local.5a8574efdd5835.52317922";
 let clientSecret = "49dg014HyDY6xr1K2X4nbbb51MvE0yzm1w0avhKUBLYEIL58pe";
 let myDomain = 'vkvote.kloud.one';
 let b24portal = 'https://komunikator.bitrix24.ru';
+let accessToken;
+let refreshToken;
 
 let user1 = {
     settings: {
@@ -94,7 +99,7 @@ app.get('/install', function(req, res) {
     */
 });
 
-app.listen(8000, function() {
+app.listen(8008, function() {
     console.log('Listen port 8000');
 });
 
