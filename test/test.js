@@ -6,7 +6,7 @@ const request = require('request');
 
 // ************************ settings ************************
 let clientId = "local.5a8574efdd5835.52317922";
-let clientSecret = "49dg014HyDY6xr1K2X4nbbb51MvE0yzm1w0avhKUBLYEIL58pe ";
+let clientSecret = "49dg014HyDY6xr1K2X4nbbb51MvE0yzm1w0avhKUBLYEIL58pe";
 let myDomain = 'vkvote.kloud.one';
 let b24portal = 'https://komunikator.bitrix24.ru';
 
