@@ -39,31 +39,31 @@ function queryHandler(req) {
             req.clientId = clientId;
             req.clientSecret = clientSecret;
 
-            b24Handlers.onOAuth(req);
+            b24handlers.onOAuth(req);
         }
     }
 
     if (("body" in req) && ("event" in req.body)) {
         switch (req.body["event"]) {
             case "ONAPPINSTALL":
-                b24Handlers.onAppInstall(req);
+                b24handlers.onAppInstall(req);
                 break;
             case "ONIMBOTJOINCHAT":
-                b24Handlers.onImbotJoinChat(req);
+                b24handlers.onImbotJoinChat(req);
                 break;
             case "ONIMBOTMESSAGEADD":
                 req.message = req.body["data"]["PARAMS"]["MESSAGE"];
                 req.answer = `Ответ на сообщение ${req.message}`;
-                b24Handlers.onImbotMessageAdd(req);
+                b24handlers.onImbotMessageAdd(req);
                 break;
             case "ONIMBOTDELETE":
-                b24Handlers.onImbotDelete(req);
+                b24handlers.onImbotDelete(req);
                 break;
             case "ONAPPUPDATE":
-                b24Handlers.onAppUpdate(req);
+                b24handlers.onAppUpdate(req);
                 break;
             case "ONIMCOMMANDADD":
-                b24Handlers.onImCommandAdd(req);
+                b24handlers.onImCommandAdd(req);
                 break;
             default:
                 console.log("default: " + req.body["event"]);
