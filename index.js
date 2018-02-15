@@ -110,6 +110,8 @@ function onOAuth(req) {
             } else {
                 data = JSON.parse(data);
 
+                console.log(`B24 response oauth \ndata: ${data}`);
+
                 // let auth = {
                 //     domain: data['domain'],
                 //     access_token: data['access_token']
