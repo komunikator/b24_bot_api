@@ -5,19 +5,6 @@ const request = require('request');
 const b24lib = new require('../index.js');
 const b24botApi = new b24lib.B24botApi();
 
-// ************************ b24botapi handlers ************************
-b24botApi.on('oauth', (err, data) => {
-    if (err) {
-        return console.error(err);
-    }
-
-    console.log(data);
-    accessToken = data.access_token;
-    refreshToken = data.refresh_token;
-
-    console.log(`\n accessToken: ${accessToken}, refreshToken: ${refreshToken}`);
-});
-
 // ************************ settings ************************
 let clientId = "local.5a8574efdd5835.52317922";
 let clientSecret = "49dg014HyDY6xr1K2X4nbbb51MvE0yzm1w0avhKUBLYEIL58pe";
@@ -116,9 +103,24 @@ app.listen(8000, function() {
 
 // ************************ tests ************************
 describe('B24 tests', () => {
-    it('B24 test install', (done) => {
-        // request     
+    it('B24 test oauth', (done) => {
+        // ************************ b24botapi handlers ************************
+        b24botApi.on('oauth', (err, data) => {
+            if (err) {
+                console.error(err);
+                return done(err);
+            }
 
-        // done();
+            console.log(data);
+
+            accessToken = data.access_token;
+            refreshToken = data.refresh_token;
+
+            console.log(`\n accessToken: ${accessToken}, \n refreshToken: ${refreshToken}`);
+            done();
+        });
     });
+
+    it('B24 test install', (done) => {
+    }
 });
