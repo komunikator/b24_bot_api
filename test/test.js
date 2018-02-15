@@ -39,7 +39,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json()); 
 
-app.all('/', function (req, res) {     
+app.all('*', function (req, res) {     
     console.log('HTTP request');
     queryHandler(req, res); 
 }); 
