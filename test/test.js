@@ -2,23 +2,24 @@
 const b24handlers = require('../index.js');
 const express = require('express');
 const bodyParser = require('body-parser');
+const request = require('request');
 
 // ************************ settings ************************
-let clientId = "local.5a67094a5700c1.50706248";
-let clientSecret = "GX7NjgT2rHRWVOsRAQmeKSuKh3KbaoBc3GBe25bQymBOkys4wF";
+let clientId = "local.5a8574efdd5835.52317922";
+let clientSecret = "49dg014HyDY6xr1K2X4nbbb51MvE0yzm1w0avhKUBLYEIL58pe ";
 let myDomain = 'vkvote.kloud.one';
 let b24portal = 'https://komunikator.bitrix24.ru';
 
 let user1 = {
     settings: {
-        "CODE": "iBendere",
+        "CODE": "test3",
         "TYPE": "B",
         "EVENT_MESSAGE_ADD": "",
         "EVENT_WELCOME_MESSAGE": "",
         "EVENT_BOT_DELETE": "",
         "PROPERTIES": {
-            "NAME": "NAME1",
-            "LAST_NAME": "LAST_NAME",
+            "NAME": "NAME test3",
+            "LAST_NAME": "LAST_NAME test3",
             "COLOR": "AQUA",
             "EMAIL": "no@mail.com",
             "PERSONAL_BIRTHDAY": "2018-02-15",
@@ -96,7 +97,8 @@ app.listen(8000, function() {
 
 // ************************ Tests ************************
 describe('B24 tests', () => {
-    it('', (done) => {
+    it('B24 test install', (done) => {
+        // request     
 
         done();
     });
