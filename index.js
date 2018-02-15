@@ -101,7 +101,7 @@ function onOAuth(req) {
          ('url' in req) ) {
 
         let url = `https://${req.query['domain']}/oauth/token/?client_id=${req.clientId}
-            &grant_type=${authorization_code}&client_secret=${req.clientSecret}&redirect_uri=${req.url}
+            &grant_type=authorization_code&client_secret=${req.clientSecret}&redirect_uri=${req.url}
             &code=${req.query['code']}&scope=${req.query['scope']}`;
 
         request(url, function (err, res, data) {
