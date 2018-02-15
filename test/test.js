@@ -5,12 +5,17 @@ const request = require('request');
 const b24lib = new require('../index.js');
 const b24botApi = new b24lib.B24botApi();
 
+// ************************ b24botapi handlers ************************
 b24botApi.on('oauth', (err, data) => {
     if (err) {
         return console.error(err);
     }
 
     console.log(data);
+    accessToken = data.access_token;
+    refreshToken = data.refresh_token;
+
+    console.log(`\n accessToken: ${accessToken}, refreshToken: ${refreshToken}`);
 });
 
 // ************************ settings ************************
@@ -42,7 +47,7 @@ let user1 = {
     }
 };
 
-// ************************ Handler ************************
+// ************************ handler ************************
 function queryHandler(req) {
     if (("headers" in req) && ("host" in req.headers) && ("path" in req) && ("protocol" in req)) {
         req.url = req.protocol + "://" + req.headers.host + req.path;
@@ -109,7 +114,7 @@ app.listen(8000, function() {
     console.log('Listen port 8000');
 });
 
-// ************************ Tests ************************
+// ************************ tests ************************
 describe('B24 tests', () => {
     it('B24 test install', (done) => {
         // request     
