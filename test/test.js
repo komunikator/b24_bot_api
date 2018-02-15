@@ -114,6 +114,6 @@ describe('B24 tests', () => {
     it('B24 test install', (done) => {
         // request     
 
-        done();
+        // done();
     });
 });
