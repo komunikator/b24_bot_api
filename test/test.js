@@ -30,28 +30,6 @@ let user1 = {
     }
 };
 
-// ************************ express ************************
-let app = express(); 
-
-app.use(bodyParser.urlencoded({     
-    extended: true   
-})); 
-
-app.use(bodyParser.json()); 
-
-app.all('*', function (req, res) {     
-    console.log('HTTP request');
-    queryHandler(req, res); 
-}); 
-
-app.get('/install', function(req, res) {
-    res.redirect(`${b24portal}/oauth/authorize/?client_id=${clientId}&response_type=code&redirect_uri=${myDomain}`);
-});
-
-app.listen(8000, function() {
-    console.log('Listen port 8000');
-});
-
 // ************************ Handler ************************
 function queryHandler(req) {
     if (("headers" in req) && ("host" in req.headers) && ("path" in req) && ("protocol" in req)) {
@@ -93,6 +71,28 @@ function queryHandler(req) {
         }
     }
 };
+
+// ************************ express ************************
+let app = express(); 
+
+app.use(bodyParser.urlencoded({     
+    extended: true   
+})); 
+
+app.use(bodyParser.json()); 
+
+app.all('*', function (req, res) {     
+    console.log('HTTP request');
+    queryHandler(req, res); 
+}); 
+
+app.get('/install', function(req, res) {
+    res.redirect(`${b24portal}/oauth/authorize/?client_id=${clientId}&response_type=code&redirect_uri=${myDomain}`);
+});
+
+app.listen(8000, function() {
+    console.log('Listen port 8000');
+});
 
 // ************************ Tests ************************
 describe('B24 tests', () => {
