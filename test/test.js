@@ -5,7 +5,13 @@ const request = require('request');
 const b24lib = new require('../index.js');
 const b24botApi = new b24lib.B24botApi();
 
-console.log(b24botApi);
+b24botApi.on('oauth', (err, data) => {
+    if (err) {
+        return console.error(`oauth err: ${err}`);
+    }
+
+    console.log(`oauth ${data}`);
+});
 
 // ************************ settings ************************
 let clientId = "local.5a8574efdd5835.52317922";
@@ -45,31 +51,31 @@ function queryHandler(req) {
             req.clientId = clientId;
             req.clientSecret = clientSecret;
 
-            b24handlers.onOAuth(req);
+            b24botApi.onOAuth(req);
         }
     }
 
     if (("body" in req) && ("event" in req.body)) {
         switch (req.body["event"]) {
             case "ONAPPINSTALL":
-                b24handlers.onAppInstall(req);
+                b24botApi.onAppInstall(req);
                 break;
             case "ONIMBOTJOINCHAT":
-                b24handlers.onImbotJoinChat(req);
+                b24botApi.onImbotJoinChat(req);
                 break;
             case "ONIMBOTMESSAGEADD":
                 req.message = req.body["data"]["PARAMS"]["MESSAGE"];
                 req.answer = `Ответ на сообщение ${req.message}`;
-                b24handlers.onImbotMessageAdd(req);
+                b24botApi.onImbotMessageAdd(req);
                 break;
             case "ONIMBOTDELETE":
-                b24handlers.onImbotDelete(req);
+                b24botApi.onImbotDelete(req);
                 break;
             case "ONAPPUPDATE":
-                b24handlers.onAppUpdate(req);
+                b24botApi.onAppUpdate(req);
                 break;
             case "ONIMCOMMANDADD":
-                b24handlers.onImCommandAdd(req);
+                b24botApi.onImCommandAdd(req);
                 break;
             default:
                 console.log("default: " + req.body["event"]);

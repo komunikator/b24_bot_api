@@ -114,6 +114,7 @@ class B24botApi extends events_1.EventEmitter {
             request(url, (err, res, data) => {
                 if (err) {
                     console.log('Bitrix24 request error: ' + err);
+                    this.emit('oauth', err);
                 } else {
                     console.log(`B24 response oauth \n: ${data}`);
 
