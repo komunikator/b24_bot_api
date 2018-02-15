@@ -7,10 +7,10 @@ const b24botApi = new b24lib.B24botApi();
 
 b24botApi.on('oauth', (err, data) => {
     if (err) {
-        return console.error(`oauth err: ${err}`);
+        return console.error(err);
     }
 
-    console.log(`oauth ${data}`);
+    console.log(data);
 });
 
 // ************************ settings ************************
