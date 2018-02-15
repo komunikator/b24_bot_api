@@ -48,7 +48,9 @@ app.get('/install', function(req, res) {
     res.redirect(`${b24portal}/oauth/authorize/?client_id=${clientId}&response_type=code&redirect_uri=${myDomain}`);
 });
 
-app.listen(8000);
+app.listen(8000, function() {
+    console.log('Listen port 8000');
+});
 
 // ************************ Handler ************************
 function queryHandler(req) {
