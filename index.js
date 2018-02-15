@@ -108,8 +108,7 @@ function onOAuth(req) {
             if (err) {
                 console.log('Bitrix24 request error: ' + err);
             } else {
-                console.log(`B24 response oauth \ndata: ${data}`);
-                console.log(data);
+                console.log(`B24 response oauth \n: ${data}`);
 
                 data = JSON.parse(data);
 
