@@ -120,7 +120,7 @@ class B24botApi extends events_1.EventEmitter {
 
                     data = JSON.parse(data);
 
-                    this.emit('oauth', data);
+                    this.emit('oauth', null, data);
 
                     // let auth = {
                     //     domain: data['domain'],
