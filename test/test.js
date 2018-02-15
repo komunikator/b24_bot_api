@@ -105,7 +105,7 @@ app.get('/install', function(req, res) {
     */
 });
 
-app.listen(8008, function() {
+app.listen(8000, function() {
     console.log('Listen port 8000');
 });
 
