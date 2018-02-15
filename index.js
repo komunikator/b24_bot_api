@@ -100,9 +100,7 @@ function onOAuth(req) {
          ('scope' in req.query) && ('server_domain' in req.query) &&
          ('url' in req) ) {
 
-        let url = `https://${req.query['domain']}/oauth/token/?client_id=${req.clientId}
-            &grant_type=authorization_code&client_secret=${req.clientSecret}&redirect_uri=${req.url}
-            &code=${req.query['code']}&scope=${req.query['scope']}`;
+        let url = `https://${req.query['domain']}/oauth/token/?client_id=${req.clientId}&grant_type=authorization_code&client_secret=${req.clientSecret}&redirect_uri=${req.url}&code=${req.query['code']}&scope=${req.query['scope']}`;
 
         console.log(`B24 request oauth \nurl: ${url}`);
 
