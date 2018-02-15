@@ -104,13 +104,15 @@ function onOAuth(req) {
             &grant_type=authorization_code&client_secret=${req.clientSecret}&redirect_uri=${req.url}
             &code=${req.query['code']}&scope=${req.query['scope']}`;
 
+        console.log(`B24 request oauth \nurl: ${url}`);
+
         request(url, function (err, res, data) {
             if (err) {
                 console.log('Bitrix24 request error: ' + err);
             } else {
                 console.log(`B24 response oauth \ndata: ${data}`);
                 console.log(data);
-                
+
                 data = JSON.parse(data);
 
                 // let auth = {

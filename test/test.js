@@ -89,6 +89,9 @@ app.all('/', function (req, res) {
 
 app.get('/install', function(req, res) {
     res.redirect(`${b24portal}/oauth/authorize/?client_id=${clientId}&response_type=code&redirect_uri=${myDomain}`);
+    /*
+    https://komunikator.bitrix24.ru/oauth/authorize/?client_id=local.5a8574efdd5835.52317922&response_type=code&redirect_uri=vkvote.kloud.one
+    */
 });
 
 app.listen(8000, function() {
