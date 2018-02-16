@@ -118,8 +118,10 @@ describe('B24 tests', () => {
             console.log(data);
 
             function writeToken() {
-                token.accessToken = accessToken;
-                token.refreshToken = refreshToken;
+                let token = {
+                    "accessToken": accessToken,
+                    "refreshToken":  refreshToken
+                }
                 fs.writeFileSync(pathToken, JSON.stringify(token));
             }
 
