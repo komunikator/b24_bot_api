@@ -1,3 +1,4 @@
+// 
 // ************************ dependences ************************
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -86,6 +87,7 @@ app.listen(8000, function() {
 // ************************ tests ************************
 describe('B24 tests', () => {
     it('B24 test oauth', (done) => {
+
         // ************************ b24botapi handlers ************************
         b24botApi.on('oauth', (err, data) => {
             if (err) {
@@ -139,7 +141,7 @@ describe('B24 tests', () => {
         }
     });
 
-    it('B24 test install', (done) => {
+    it('B24 test register', (done) => {
         function getAndSetToken() {
             if (fs.existsSync(pathToken) ) {
                 console.log('exists');
@@ -172,7 +174,7 @@ describe('B24 tests', () => {
         req['body']['event'] = "ONAPPINSTALL";
         req['url'] = myDomain;
         req['settings'] = {
-            "CODE": "test4",
+            "CODE": "test3",
             "TYPE": "B",
             "EVENT_MESSAGE_ADD": myDomain,
             "EVENT_WELCOME_MESSAGE": myDomain,
@@ -190,6 +192,26 @@ describe('B24 tests', () => {
             }
         };
 
+
+        b24botApi.on('imbot.register', (err, data) => {
+            if (err) {
+                console.error(err);
+                return done(err);
+            }
+
+            console.log('imbot.register');
+            console.log(data);
+
+            if (data.result) {
+                console.log(data.result);
+                return done();
+            }
+        });
+
         b24botApi.onAppInstall(req);
+    });
+
+    it('B24 test unregister', (done) => {
+
     });
 });

@@ -28,10 +28,16 @@ class B24botApi extends events_1.EventEmitter {
                 if (cb) {
                     cb(err)
                 }
+
+                this.emit(method, err);
+
                 return console.error(`Request err: ${err}`);
             }
 
             console.log(`restCommand ${data}`);
+
+
+            this.emit(method, null, data);
 
             if (cb) {
                 cb(null, data)
