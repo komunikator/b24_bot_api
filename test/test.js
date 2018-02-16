@@ -4,14 +4,18 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const b24lib = new require('../index.js');
 const b24botApi = new b24lib.B24botApi();
+const fs = require('fs');
 
 // ************************ settings ************************
 let clientId = "local.5a8574efdd5835.52317922";
 let clientSecret = "49dg014HyDY6xr1K2X4nbbb51MvE0yzm1w0avhKUBLYEIL58pe";
 let myDomain = 'vkvote.kloud.one';
 let b24portal = 'https://komunikator.bitrix24.ru';
+
+let pathToken = 'test/token.json';
 let accessToken;
 let refreshToken;
+
 
 let user1 = {
     settings: {
@@ -113,14 +117,39 @@ describe('B24 tests', () => {
 
             console.log(data);
 
+            function writeToken() {
+                token.accessToken = accessToken;
+                token.refreshToken = refreshToken;
+                fs.writeFileSync(pathToken, JSON.stringify(token));
+            }
+
             accessToken = data.access_token;
             refreshToken = data.refresh_token;
 
+            writeToken();
             console.log(`\n accessToken: ${accessToken}, \n refreshToken: ${refreshToken}`);
             done();
         });
     });
 
     it('B24 test install', (done) => {
+        function getAndSetToken() {
+            if (fs.existsSync(pathToken) ) {
+                console.log('exists');
+
+                let token = JSON.parse( fs.readFileSync(pathToken, 'utf8') );
+
+                accessToken = token.accessToken;
+                refreshToken = token.refreshToken;
+
+                console.log(accessToken);
+                console.log(refreshToken);
+            } else {
+                console.log('not exists');
+                return done('not exists token');
+            }
+        }
+
+        getAndSetToken();
     });
 });
