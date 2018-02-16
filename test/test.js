@@ -172,7 +172,7 @@ describe('B24 tests', () => {
         req['body']['event'] = "ONAPPINSTALL";
         req['url'] = myDomain;
         req['settings'] = {
-            "CODE": "test3",
+            "CODE": "test4",
             "TYPE": "B",
             "EVENT_MESSAGE_ADD": myDomain,
             "EVENT_WELCOME_MESSAGE": myDomain,
