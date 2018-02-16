@@ -16,12 +16,12 @@ class B24botApi extends events_1.EventEmitter {
             return console.error(`Not method ${method} or params ${params} or auth ${auth}`);
         }
 
-        let queryUrl  = `https://${auth['domain']}/rest/${method}`;
+        let queryUrl  = `${auth['domain']}/rest/${method}`;
 
         params['access_token'] = auth['access_token'];
 
         console.log(`restCommand: ${queryUrl} \nparams: ${params}`);
-        
+
         request.post(queryUrl, {form: params}, (err, res, data) => {
             if (err) {
                 if (cb) {
