@@ -36,14 +36,17 @@ class B24botApi extends events_1.EventEmitter {
 
     // На установку приложения
     onAppInstall(req) {
-        if (!req.url) return false;
+        if (!req.url) {
+            console.error(`onAppInstall not found req.url [${req.url}]`);
+            return false;
+        }
 
         if (req && req.settings && req.settings.PROPERTIES && 
             req.settings.PROPERTIES.PERSONAL_PHOTO) {
 
             nodeBase64image.encode(req.settings.PROPERTIES.PERSONAL_PHOTO, { string: true, local: false }, (err, data) => {
                 if (err) {
-                    return console.error("err: ", err);
+                    return console.error(`onAppInstall nodeBase64image.encode err: ${err}`);
                 }
                 req.settings.PROPERTIES.PERSONAL_PHOTO = data || "";
                 this.restCommand('imbot.register', req.settings, req.body['auth']);
