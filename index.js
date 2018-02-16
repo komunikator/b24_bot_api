@@ -21,7 +21,7 @@ class B24botApi extends events_1.EventEmitter {
         params['access_token'] = auth['access_token'];
 
         console.log(`restCommand: ${queryUrl} \nparams: ${params}`);
-        console.log(params);
+        // console.log(params);
 
         request.post(queryUrl, {form: params}, (err, res, data) => {
             if (err) {
