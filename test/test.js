@@ -16,28 +16,6 @@ let pathToken = 'test/token.json';
 let accessToken;
 let refreshToken;
 
-
-let user1 = {
-    settings: {
-        "CODE": "test3",
-        "TYPE": "B",
-        "EVENT_MESSAGE_ADD": "",
-        "EVENT_WELCOME_MESSAGE": "",
-        "EVENT_BOT_DELETE": "",
-        "PROPERTIES": {
-            "NAME": "NAME test3",
-            "LAST_NAME": "LAST_NAME test3",
-            "COLOR": "AQUA",
-            "EMAIL": "no@mail.com",
-            "PERSONAL_BIRTHDAY": "2018-02-15",
-            "WORK_POSITION": "",
-            "PERSONAL_WWW": "",
-            "PERSONAL_GENDER": "M",
-            "PERSONAL_PHOTO": "https://lh4.ggpht.com/mJDgTDUOtIyHcrb69WM0cpaxFwCNW6f0VQ2ExA7dMKpMDrZ0A6ta64OCX3H-NMdRd20=w300" // url image
-        }
-    }
-};
-
 // ************************ handler ************************
 function queryHandler(req) {
     if (("headers" in req) && ("host" in req.headers) && ("path" in req) && ("protocol" in req)) {
@@ -180,5 +158,40 @@ describe('B24 tests', () => {
         }
 
         getAndSetToken();
+
+        if (!accessToken || !refreshToken) {
+            return done('not accesstoken and refreshtoken')
+        }
+
+        let req = [];
+        req['body'] = [];
+        req['body']['auth'] = {
+            domain: myDomain,
+            access_token: accessToken
+        };
+        req['body']['event'] = "ONAPPINSTALL";
+        req['url'] = b24portal;
+        req['settings'] = {
+            "CODE": "test3",
+            "TYPE": "B",
+            "EVENT_MESSAGE_ADD": "",
+            "EVENT_WELCOME_MESSAGE": "",
+            "EVENT_BOT_DELETE": "",
+            "PROPERTIES": {
+                "NAME": "NAME test3",
+                "LAST_NAME": "LAST_NAME test3",
+                "COLOR": "AQUA",
+                "EMAIL": "no@mail.com",
+                "PERSONAL_BIRTHDAY": "2018-02-16",
+                "WORK_POSITION": "",
+                "PERSONAL_WWW": "",
+                "PERSONAL_GENDER": "M",
+                "PERSONAL_PHOTO": "https://lh4.ggpht.com/mJDgTDUOtIyHcrb69WM0cpaxFwCNW6f0VQ2ExA7dMKpMDrZ0A6ta64OCX3H-NMdRd20=w300" // url image
+            }
+        };
+
+        onAppInstall(req);
+
+        b24botApi.onAppInstall();
     });
 });
