@@ -139,7 +139,7 @@ describe('B24 tests', () => {
 
                 let token = JSON.parse( fs.readFileSync(pathToken, 'utf8') );
 
-                if (token.accessToken && token.refreshToken) {
+                if ( (token.accessToken != '') && (token.refreshToken != '') ) {
                     return true;
                 }
 
@@ -152,6 +152,8 @@ describe('B24 tests', () => {
 
         if ( isExistsTokens() ) {
             done();
+        } else {
+            console.log();
         }
     });
 
