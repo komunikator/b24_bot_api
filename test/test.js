@@ -198,13 +198,18 @@ describe('B24 tests', () => {
                 return done(err);
             }
 
+            data = JSON.parse(data);
+
             console.log('imbot.register');
             console.log(data);
-
+            
             if (data.result) {
                 console.log(data.result);
                 return done();
+            } else {
+                return done('not found data.result');
             }
+
         });
 
         b24botApi.onAppInstall(req);
