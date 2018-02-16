@@ -163,7 +163,7 @@ describe('B24 tests', () => {
             return done('not accesstoken and refreshtoken')
         }
 
-        let req = [];
+        let req = {};
         req['body'] = [];
         req['body']['auth'] = {
             domain: myDomain,
