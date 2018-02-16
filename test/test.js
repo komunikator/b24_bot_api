@@ -174,9 +174,9 @@ describe('B24 tests', () => {
         req['settings'] = {
             "CODE": "test3",
             "TYPE": "B",
-            "EVENT_MESSAGE_ADD": "",
-            "EVENT_WELCOME_MESSAGE": "",
-            "EVENT_BOT_DELETE": "",
+            "EVENT_MESSAGE_ADD": myDomain,
+            "EVENT_WELCOME_MESSAGE": myDomain,
+            "EVENT_BOT_DELETE": myDomain,
             "PROPERTIES": {
                 "NAME": "NAME test3",
                 "LAST_NAME": "LAST_NAME test3",
