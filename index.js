@@ -21,6 +21,7 @@ class B24botApi extends events_1.EventEmitter {
         params['access_token'] = auth['access_token'];
 
         console.log(`restCommand: ${queryUrl} \nparams: ${params}`);
+        console.log(params);
 
         request.post(queryUrl, {form: params}, (err, res, data) => {
             if (err) {
@@ -53,7 +54,7 @@ class B24botApi extends events_1.EventEmitter {
                     return console.error(`onAppInstall nodeBase64image.encode err: ${err}`);
                 }
                 req.settings.PROPERTIES.PERSONAL_PHOTO = data || "";
-                
+
                 console.error(`onAppInstall nodeBase64image.data: ${data}`);
 
                 this.restCommand('imbot.register', req.settings, req.body['auth']);
