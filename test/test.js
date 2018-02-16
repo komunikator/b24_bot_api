@@ -190,8 +190,6 @@ describe('B24 tests', () => {
             }
         };
 
-        onAppInstall(req);
-
-        b24botApi.onAppInstall();
+        b24botApi.onAppInstall(req);
     });
 });
