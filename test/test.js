@@ -192,7 +192,6 @@ describe('B24 tests', () => {
             }
         };
 
-
         b24botApi.on('imbot.register', (err, data) => {
             if (err) {
                 console.error(err);
