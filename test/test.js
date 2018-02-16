@@ -132,6 +132,27 @@ describe('B24 tests', () => {
             console.log(`\n accessToken: ${accessToken}, \n refreshToken: ${refreshToken}`);
             done();
         });
+
+        function isExistsTokens() {
+            if (fs.existsSync(pathToken) ) {
+                console.log('exists tokens');
+
+                let token = JSON.parse( fs.readFileSync(pathToken, 'utf8') );
+
+                if (token.accessToken && token.refreshToken) {
+                    return true;
+                }
+
+                return false;
+            } else {
+                console.log('not exists');
+                return false;
+            }
+        }
+
+        if ( isExistsTokens() ) {
+            done();
+        }
     });
 
     it('B24 test install', (done) => {
