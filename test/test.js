@@ -166,11 +166,11 @@ describe('B24 tests', () => {
         let req = {};
         req['body'] = [];
         req['body']['auth'] = {
-            domain: myDomain,
+            domain: b24portal,
             access_token: accessToken
         };
         req['body']['event'] = "ONAPPINSTALL";
-        req['url'] = b24portal;
+        req['url'] = myDomain;
         req['settings'] = {
             "CODE": "test3",
             "TYPE": "B",
