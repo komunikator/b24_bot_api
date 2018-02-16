@@ -141,7 +141,7 @@ describe('B24 tests', () => {
 
                 console.log('token ', token);
 
-                if ( (token.accessToken != '') && (token.refreshToken != '') ) {
+                if ( (token.accessToken) && (token.refreshToken) ) {
                     console.log('exists token accessToken ', token.accessToken);
                     console.log('exists token refreshToken ', token.refreshToken);
                     return true;
