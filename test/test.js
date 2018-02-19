@@ -207,6 +207,8 @@ describe('B24 tests', () => {
                 console.log(data.result);
                 return done();
             } else {
+                accessToken = false;
+                refreshToken = false;
                 return done('not found data.result');
             }
 
@@ -216,6 +218,19 @@ describe('B24 tests', () => {
     });
 
     it('B24 test unregister', (done) => {
+        if (!accessToken || !refreshToken) {
+            return done('not accesstoken and refreshtoken')
+        }
 
+        let req = {};
+        req['body'] = [];
+        req['body']['BOT_ID'] = '1186';
+        // req['body']['CLIENT_ID'] = '1186';
+        req['body']['auth'] = {
+            domain: b24portal,
+            access_token: accessToken
+        };
+
+        b24botApi.onAppUninstall(req);
     });
 });
