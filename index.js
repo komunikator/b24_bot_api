@@ -12,21 +12,16 @@ class B24botApi extends events_1.EventEmitter {
     // ******************** Контроллеры ******************** //
     // Post запросы к bitrix24
     restCommand(req, cb) {
-        if (!req.method || !req.params || !req.access_token) {
-            return console.error(`Not method ${req.method} or params ${req.params} or auth ${req.access_token}`);
+        if (!req.method || !req.access_token) {
+            return console.error(`Not method ${req.method} or auth ${req.access_token}`);
         }
 
-        // let queryUrl  = `${req.auth['domain']}/rest/${req.method}`;
         let queryUrl  = `${req.url}/rest/${req.method}`;
 
-        // params['access_token'] = req.auth['access_token'];
-
         console.log(`restCommand: ${queryUrl} \nparams: ${req.params}`);
-        // console.log(params);
-
         console.log('queryUrl: ', queryUrl);
 
-        request.post(queryUrl, {form: req.params}, (err, res, data) => {
+        request.post(queryUrl, {form: req.settings}, (err, res, data) => {
             if (err) {
                 if (cb) {
                     cb(err)
