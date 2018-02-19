@@ -207,7 +207,7 @@ describe('B24 tests', () => {
             if (data.result) {
                 console.log(data.result);
                 botId = data.result;
-                return done();
+                // return done();
             } else {
                 botId = null;
                 accessToken = false;
@@ -218,6 +218,16 @@ describe('B24 tests', () => {
         });
 
         b24botApi.onAppInstall(req);
+    });
+
+    it('B24 test message', (done) => {
+        if (!accessToken || !refreshToken || !botId) {
+            return done('not accesstoken or refreshtoken or botId')
+        }
+
+        console.log(`message BOT ID ${botId}`);
+        
+        
     });
 
     it('B24 test unregister', (done) => {
