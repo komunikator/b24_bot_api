@@ -225,6 +225,8 @@ describe('B24 tests', () => {
             return done('not accesstoken or refreshtoken or botId')
         }
 
+        console.log(`unregister BOT ID ${botId}`);
+        
         let req = {};
         req['url'] = myDomain;
         req['BOT_ID'] = botId;
