@@ -11,34 +11,35 @@ class B24botApi extends events_1.EventEmitter {
 
     // ******************** Контроллеры ******************** //
     // Post запросы к bitrix24
-    restCommand(method, params, auth, cb) {
-        if (!method || !params || !auth) {
-            return console.error(`Not method ${method} or params ${params} or auth ${auth}`);
+    restCommand(req, cb) {
+        if (!req.method || !req.params || !req.access_token) {
+            return console.error(`Not method ${req.method} or params ${req.params} or auth ${req.access_token}`);
         }
 
-        let queryUrl  = `${auth['domain']}/rest/${method}`;
+        // let queryUrl  = `${req.auth['domain']}/rest/${req.method}`;
+        let queryUrl  = `${req.url}/rest/${req.method}`;
 
-        params['access_token'] = auth['access_token'];
+        // params['access_token'] = req.auth['access_token'];
 
-        console.log(`restCommand: ${queryUrl} \nparams: ${params}`);
+        console.log(`restCommand: ${queryUrl} \nparams: ${req.params}`);
         // console.log(params);
+
         console.log('queryUrl: ', queryUrl);
 
-        request.post(queryUrl, {form: params}, (err, res, data) => {
+        request.post(queryUrl, {form: req.params}, (err, res, data) => {
             if (err) {
                 if (cb) {
                     cb(err)
                 }
 
-                this.emit(method, err);
+                this.emit(req.method, err);
 
                 return console.error(`Request err: ${err}`);
             }
 
             console.log(`restCommand ${data}`);
 
-
-            this.emit(method, null, data);
+            this.emit(req.method, null, data);
 
             if (cb) {
                 cb(null, data)
@@ -48,20 +49,23 @@ class B24botApi extends events_1.EventEmitter {
 
     // На удаление приложения
     onAppUninstall(req) {
-//        if (!req.url) {
-//            console.error(`onAppUninstall not found req.url [${req.url}]`);
-//            return false;
-//        }
-
-        this.restCommand('imbot.unregister', req, req.body['auth']);
+        if (!req.url) {
+            console.error(`onAppUninstall not found req.url [${req.url}]`);
+            return false;
+        }
+        req.method = 'imbot.unregister';
+        req.access_token = req.body['auth'];
+        this.restCommand(req);
     }
 
     // На установку приложения
-    onAppInstall(req) {
-//        if (!req.url) {
-//            console.error(`onAppInstall not found req.url [${req.url}]`);
-//            return false;
-//        }
+    onAppInstall(req, cb) {
+        if (!req.url) {
+            console.error(`onAppInstall not found req.url [${req.url}]`);
+            return false;
+        }
+
+        req.method = 'imbot.register';
 
         if (req && req.settings && req.settings.PROPERTIES && 
             req.settings.PROPERTIES.PERSONAL_PHOTO) {
@@ -71,13 +75,11 @@ class B24botApi extends events_1.EventEmitter {
                     return console.error(`onAppInstall nodeBase64image.encode err: ${err}`);
                 }
                 req.settings.PROPERTIES.PERSONAL_PHOTO = data || "";
-
-                // console.log(`onAppInstall nodeBase64image.data: ${data}`);
-
-                this.restCommand('imbot.register', req.settings, req.body['auth']);
+                
+                this.restCommand(req);
             });
         } else {
-            this.restCommand('imbot.register', req.settings, req.body['auth']);
+            this.restCommand(req);
         }
     }
 
@@ -132,10 +134,10 @@ class B24botApi extends events_1.EventEmitter {
     onOAuth(req) {
         if ( ('code' in req.query) && ('state' in req.query) &&
             ('domain' in req.query) && ('member_id' in req.query) &&
-            ('scope' in req.query) && ('server_domain' in req.query) /*&&
-            ('url' in req)*/ ) {
+            ('scope' in req.query) && ('server_domain' in req.query) &&
+            ('url' in req) ) {
 
-            let url = `https://${req.query['domain']}/oauth/token/?client_id=${req.clientId}&grant_type=authorization_code&client_secret=${req.clientSecret}&redirect_uri=${req.url}&code=${req.query['code']}&scope=${req.query['scope']}`;
+            let url = `${req.url}/oauth/token/?client_id=${req.clientId}&grant_type=authorization_code&client_secret=${req.clientSecret}&redirect_uri=${req.url}&code=${req.query['code']}&scope=${req.query['scope']}`;
 
             console.log(`B24 request oauth \nurl: ${url}`);
 
@@ -149,21 +151,7 @@ class B24botApi extends events_1.EventEmitter {
                     data = JSON.parse(data);
 
                     this.emit('oauth', null, data);
-
-                    // let auth = {
-                    //     domain: data['domain'],
-                    //     access_token: data['access_token']
-                    // };
-
-                    // let newReq = [];
-                    // newReq['body'] = [];
-                    // newReq['body']['auth'] = auth;
-                    // newReq['body']['event'] = "ONAPPINSTALL";
-                    // newReq['url'] = req.url;
-                    // newReq['settings'] = req.settings;
-
-                    // onAppInstall(newReq);
-            }
+                }
             });
         }
     }
