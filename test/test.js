@@ -169,11 +169,9 @@ describe('B24 tests', () => {
 
         let req = {};
         req['url'] = linkB24portal;
-        req['body'] = [];
-        req['body']['auth'] = {
-            access_token: accessToken
-        };
-        req['body']['event'] = "ONAPPINSTALL";
+        req['access_token'] = accessToken;
+        // req['body'] = [];
+        // req['body']['event'] = "ONAPPINSTALL";
         req['settings'] = {
             "CODE": "test3",
             "TYPE": "B",
