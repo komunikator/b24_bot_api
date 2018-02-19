@@ -15,11 +15,8 @@ class B24botApi extends events_1.EventEmitter {
         if (!req.method || !req.access_token) {
             return console.error(`Not method ${req.method} or access_token ${req.access_token}`);
         }
-
         let queryUrl  = `${req.url}/rest/${req.method}`;
-
-        console.log(`restCommand: ${queryUrl} \nparams: ${req.params}`);
-        console.log('queryUrl: ', queryUrl);
+        console.log(`restCommand queryUrl: ${queryUrl}`);
 
         request.post(queryUrl, {form: req.settings}, (err, res, data) => {
             if (err) {
