@@ -224,6 +224,7 @@ describe('B24 tests', () => {
 
         let req = {};
         req['body'] = [];
+        req['url'] = myDomain;
         req['body']['BOT_ID'] = '1186';
         // req['body']['CLIENT_ID'] = '1186';
         req['body']['auth'] = {
