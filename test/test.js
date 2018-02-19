@@ -143,7 +143,6 @@ describe('B24 tests', () => {
         }
     });
 
-    /*
     it('B24 test register', (done) => {
         function getAndSetToken() {
             if (fs.existsSync(pathToken) ) {
@@ -194,7 +193,31 @@ describe('B24 tests', () => {
             }
         };
 
-        b24botApi.on('imbot.register', (err, data) => {
+        // b24botApi.on('imbot.register', (err, data) => {
+        //     if (err) {
+        //         console.error(err);
+        //         return done(err);
+        //     }
+
+        //     data = JSON.parse(data);
+
+        //     console.log('imbot.register');
+        //     console.log(data);
+
+        //     if (data.result) {
+        //         console.log(data.result);
+        //         botId = data.result;
+        //         return done();
+        //     } else {
+        //         botId = null;
+        //         accessToken = false;
+        //         refreshToken = false;
+        //         return done('not found data.result');
+        //     }
+
+        // });
+
+        function onAppInstall(err, data) {
             if (err) {
                 console.error(err);
                 return done(err);
@@ -215,12 +238,12 @@ describe('B24 tests', () => {
                 refreshToken = false;
                 return done('not found data.result');
             }
+        }
 
-        });
-
-        b24botApi.onAppInstall(req);
+        b24botApi.onAppInstall(req, onAppInstall);
     });
 
+    /*
     it('B24 test unregister', (done) => {
         if (!accessToken || !refreshToken || !botId) {
             return done('not accesstoken or refreshtoken or botId')

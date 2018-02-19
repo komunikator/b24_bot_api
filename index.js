@@ -75,11 +75,11 @@ class B24botApi extends events_1.EventEmitter {
                     return console.error(`onAppInstall nodeBase64image.encode err: ${err}`);
                 }
                 req.settings.PROPERTIES.PERSONAL_PHOTO = data || "";
-                
-                this.restCommand(req);
+
+                this.restCommand(req, cb);
             });
         } else {
-            this.restCommand(req);
+            this.restCommand(req, cb);
         }
     }
 
