@@ -230,6 +230,25 @@ describe('B24 tests', () => {
             }
 
         };
-        b24botApi.onAppUninstall(req);
+
+        function onAppUninstall(err, data) {
+            if (err) {
+                console.error(err);
+                return done(err);
+            }
+
+            data = JSON.parse(data);
+
+            console.log(`imbot.unregister data: ${data}`);
+
+            if (data.result) {
+                console.log(`data.result: ${data.result}`);
+                return done();
+            } else {
+                return done('not found data.result');
+            }
+        }
+
+        b24botApi.onAppUninstall(req, onAppUninstall);
     });
 });
