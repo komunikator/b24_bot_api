@@ -224,8 +224,8 @@ describe('B24 tests', () => {
 
         let req = {
             url: linkB24portal,
-            BOT_ID: botId,
             settings: {
+                BOT_ID: botId,
                 access_token: accessToken
             }
 
