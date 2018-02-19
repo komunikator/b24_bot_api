@@ -7,8 +7,8 @@ const b24botApi = new b24lib.B24botApi();
 const fs = require('fs');
 
 // ************************ settings ************************
-let clientId = "local.5a8574efdd5835.52317922";
-let clientSecret = "49dg014HyDY6xr1K2X4nbbb51MvE0yzm1w0avhKUBLYEIL58pe";
+let clientId = 'local.5a8574efdd5835.52317922';
+let clientSecret = '49dg014HyDY6xr1K2X4nbbb51MvE0yzm1w0avhKUBLYEIL58pe';
 let myDomain = 'http://vkvote.kloud.one:8000';
 let linkB24portal = 'https://komunikator.bitrix24.ru';
 
@@ -19,10 +19,10 @@ let botId;
 
 // ************************ handler ************************
 function queryHandler(req) {
-    if (("headers" in req) && ("host" in req.headers) && ("path" in req) && ("protocol" in req)) {
+    if (('headers' in req) && ('host' in req.headers) && ('path' in req) && ('protocol' in req)) {
         req.url = linkB24portal;
 
-        if ( ("query" in req) && ("code" in req.query) ) {
+        if ( ('query' in req) && ('code' in req.query) ) {
             req.clientId = clientId;
             req.clientSecret = clientSecret;
 
@@ -30,31 +30,31 @@ function queryHandler(req) {
         }
     }
 
-    if (("body" in req) && ("event" in req.body)) {
-        switch (req.body["event"]) {
-            case "ONAPPINSTALL":
+    if (('body' in req) && ('event' in req.body)) {
+        switch (req.body['event']) {
+            case 'ONAPPINSTALL':
                 b24botApi.onAppInstall(req);
                 break;
-            case "ONIMBOTJOINCHAT":
+            case 'ONIMBOTJOINCHAT':
                 b24botApi.onImbotJoinChat(req);
                 break;
-            case "ONIMBOTMESSAGEADD":
-                req.message = req.body["data"]["PARAMS"]["MESSAGE"];
+            case 'ONIMBOTMESSAGEADD':
+                req.message = req.body['data']['PARAMS']['MESSAGE'];
                 req.answer = `Ответ на сообщение ${req.message}`;
                 req.url = linkB24portal;
                 b24botApi.onImbotMessageAdd(req);
                 break;
-            case "ONIMBOTDELETE":
+            case 'ONIMBOTDELETE':
                 b24botApi.onImbotDelete(req);
                 break;
-            case "ONAPPUPDATE":
+            case 'ONAPPUPDATE':
                 b24botApi.onAppUpdate(req);
                 break;
-            case "ONIMCOMMANDADD":
+            case 'ONIMCOMMANDADD':
                 b24botApi.onImCommandAdd(req);
                 break;
             default:
-                console.log("default: " + req.body["event"]);
+                console.log('default: ' + req.body['event']);
                 break;
         }
     }
@@ -101,8 +101,8 @@ describe('B24 tests', () => {
 
             function writeToken() {
                 let token = {
-                    "accessToken": accessToken,
-                    "refreshToken":  refreshToken
+                    'accessToken': accessToken,
+                    'refreshToken':  refreshToken
                 }
                 fs.writeFileSync(pathToken, JSON.stringify(token));
             }
@@ -156,36 +156,36 @@ describe('B24 tests', () => {
                 console.log(accessToken);
                 console.log(refreshToken);
             } else {
-                console.log('not exists');
-                return done('not exists token');
+                return done('Not exists token');
             }
         }
 
         getAndSetToken();
 
         if (!accessToken || !refreshToken) {
-            return done('not accesstoken and refreshtoken')
+            return done('Not accesstoken and refreshtoken')
         }
 
-        let req = {};
-        req['url'] = linkB24portal;
-        req['settings'] = {
-            "access_token": accessToken,
-            "CODE": "test3",
-            "TYPE": "B",
-            "EVENT_MESSAGE_ADD": myDomain,
-            "EVENT_WELCOME_MESSAGE": myDomain,
-            "EVENT_BOT_DELETE": myDomain,
-            "PROPERTIES": {
-                "NAME": "NAME test3",
-                "LAST_NAME": "LAST_NAME test3",
-                "COLOR": "AQUA",
-                "EMAIL": "no@mail.com",
-                "PERSONAL_BIRTHDAY": "2018-02-16",
-                "WORK_POSITION": "",
-                "PERSONAL_WWW": "",
-                "PERSONAL_GENDER": "M",
-                "PERSONAL_PHOTO": "https://lh4.ggpht.com/mJDgTDUOtIyHcrb69WM0cpaxFwCNW6f0VQ2ExA7dMKpMDrZ0A6ta64OCX3H-NMdRd20=w300" // url image
+        let req = {
+            url: linkB24portal,
+            settings: {
+                access_token: accessToken,
+                CODE: 'test3',
+                TYPE: 'B',
+                EVENT_MESSAGE_ADD: myDomain,
+                EVENT_WELCOME_MESSAGE: myDomain,
+                EVENT_BOT_DELETE: myDomain,
+                PROPERTIES: {
+                    NAME: 'NAME test3',
+                    LAST_NAME: 'LAST_NAME test3',
+                    COLOR: 'AQUA',
+                    EMAIL: 'no@mail.com',
+                    PERSONAL_BIRTHDAY: '2018-02-16',
+                    WORK_POSITION: '',
+                    PERSONAL_WWW: '',
+                    PERSONAL_GENDER: 'M',
+                    PERSONAL_PHOTO: 'https://lh4.ggpht.com/mJDgTDUOtIyHcrb69WM0cpaxFwCNW6f0VQ2ExA7dMKpMDrZ0A6ta64OCX3H-NMdRd20=w300'
+                }
             }
         };
 
@@ -197,11 +197,10 @@ describe('B24 tests', () => {
 
             data = JSON.parse(data);
 
-            console.log('imbot.register');
-            console.log(data);
+            console.log(`imbot.register data: ${data}`);
 
             if (data.result) {
-                console.log(data.result);
+                console.log(`data.result: ${data.result}`);
                 botId = data.result;
                 return done();
             } else {
@@ -215,7 +214,7 @@ describe('B24 tests', () => {
         b24botApi.onAppInstall(req, onAppInstall);
     });
 
-    /*
+
     it('B24 test unregister', (done) => {
         if (!accessToken || !refreshToken || !botId) {
             return done('not accesstoken or refreshtoken or botId')
@@ -223,53 +222,14 @@ describe('B24 tests', () => {
 
         console.log(`unregister BOT ID ${botId}`);
 
-        let req = {};
-        req['BOT_ID'] = botId;
-        req['body'] = [];
-        req['body']['auth'] = {
-            access_token: accessToken
-        };
+        let req = {
+            url: linkB24portal,
+            BOT_ID: botId,
+            settings: {
+                access_token: accessToken
+            }
 
+        };
         b24botApi.onAppUninstall(req);
     });
-    */
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ************************ other ************************
-// b24botApi.on('imbot.register', (err, data) => {
-//     if (err) {
-//         console.error(err);
-//         return done(err);
-//     }
-
-//     data = JSON.parse(data);
-
-//     console.log('imbot.register');
-//     console.log(data);
-
-//     if (data.result) {
-//         console.log(data.result);
-//         botId = data.result;
-//         return done();
-//     } else {
-//         botId = null;
-//         accessToken = false;
-//         refreshToken = false;
-//         return done('not found data.result');
-//     }
-
-// });

@@ -46,7 +46,6 @@ class B24botApi extends events_1.EventEmitter {
             return false;
         }
         req.method = 'imbot.unregister';
-        req.access_token = req.body['auth'];
         this.restCommand(req);
     }
 
