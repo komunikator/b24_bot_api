@@ -226,7 +226,7 @@ describe('B24 tests', () => {
         req['body'] = [];
         req['url'] = myDomain;
         req['body']['BOT_ID'] = '1186';
-        // req['body']['CLIENT_ID'] = '1186';
+        req['body']['CLIENT_ID'] = '1186';
         req['body']['auth'] = {
             domain: b24portal,
             access_token: accessToken
