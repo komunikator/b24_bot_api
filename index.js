@@ -52,7 +52,7 @@ class B24botApi extends events_1.EventEmitter {
             return false;
         }
 
-        this.restCommand('imbot.unregister', {}, req.body['auth']);
+        this.restCommand('imbot.unregister', req, req.body['auth']);
     }
 
     // На установку приложения
