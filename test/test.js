@@ -16,6 +16,7 @@ let b24portal = 'https://komunikator.bitrix24.ru';
 let pathToken = 'test/token.json';
 let accessToken;
 let refreshToken;
+let botId;
 
 // ************************ handler ************************
 function queryHandler(req) {
@@ -205,8 +206,10 @@ describe('B24 tests', () => {
             
             if (data.result) {
                 console.log(data.result);
+                botId = data.result;
                 return done();
             } else {
+                botId = null;
                 accessToken = false;
                 refreshToken = false;
                 return done('not found data.result');
@@ -218,15 +221,14 @@ describe('B24 tests', () => {
     });
 
     it('B24 test unregister', (done) => {
-        if (!accessToken || !refreshToken) {
-            return done('not accesstoken and refreshtoken')
+        if (!accessToken || !refreshToken || !botId) {
+            return done('not accesstoken or refreshtoken or botId')
         }
 
         let req = {};
-        req['body'] = [];
         req['url'] = myDomain;
-        req['body']['BOT_ID'] = '1186';
-        req['body']['CLIENT_ID'] = '1186';
+        req['BOT_ID'] = botId;
+        req['body'] = [];
         req['body']['auth'] = {
             domain: b24portal,
             access_token: accessToken
