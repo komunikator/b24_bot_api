@@ -42,6 +42,7 @@ function queryHandler(req) {
             case "ONIMBOTMESSAGEADD":
                 req.message = req.body["data"]["PARAMS"]["MESSAGE"];
                 req.answer = `Ответ на сообщение ${req.message}`;
+                req.body.auth.domain = b24portal;
                 b24botApi.onImbotMessageAdd(req);
                 break;
             case "ONIMBOTDELETE":
@@ -173,7 +174,7 @@ describe('B24 tests', () => {
             access_token: accessToken
         };
         req['body']['event'] = "ONAPPINSTALL";
-        req['url'] = myDomain;
+        //req['url'] = myDomain;
         req['settings'] = {
             "CODE": "test3",
             "TYPE": "B",
@@ -203,11 +204,11 @@ describe('B24 tests', () => {
 
             console.log('imbot.register');
             console.log(data);
-            
+
             if (data.result) {
                 console.log(data.result);
                 botId = data.result;
-                // return done();
+                return done();
             } else {
                 botId = null;
                 accessToken = false;
@@ -220,23 +221,13 @@ describe('B24 tests', () => {
         b24botApi.onAppInstall(req);
     });
 
-    it('B24 test message', (done) => {
-        if (!accessToken || !refreshToken || !botId) {
-            return done('not accesstoken or refreshtoken or botId')
-        }
-
-        console.log(`message BOT ID ${botId}`);
-        
-        
-    });
-
     it('B24 test unregister', (done) => {
         if (!accessToken || !refreshToken || !botId) {
             return done('not accesstoken or refreshtoken or botId')
         }
 
         console.log(`unregister BOT ID ${botId}`);
-        
+
         let req = {};
         req['url'] = myDomain;
         req['BOT_ID'] = botId;

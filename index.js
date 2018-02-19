@@ -22,6 +22,7 @@ class B24botApi extends events_1.EventEmitter {
 
         console.log(`restCommand: ${queryUrl} \nparams: ${params}`);
         // console.log(params);
+        console.log('queryUrl: ', queryUrl);
 
         request.post(queryUrl, {form: params}, (err, res, data) => {
             if (err) {
@@ -47,20 +48,20 @@ class B24botApi extends events_1.EventEmitter {
 
     // На удаление приложения
     onAppUninstall(req) {
-        if (!req.url) {
-            console.error(`onAppUninstall not found req.url [${req.url}]`);
-            return false;
-        }
+//        if (!req.url) {
+//            console.error(`onAppUninstall not found req.url [${req.url}]`);
+//            return false;
+//        }
 
         this.restCommand('imbot.unregister', req, req.body['auth']);
     }
 
     // На установку приложения
     onAppInstall(req) {
-        if (!req.url) {
-            console.error(`onAppInstall not found req.url [${req.url}]`);
-            return false;
-        }
+//        if (!req.url) {
+//            console.error(`onAppInstall not found req.url [${req.url}]`);
+//            return false;
+//        }
 
         if (req && req.settings && req.settings.PROPERTIES && 
             req.settings.PROPERTIES.PERSONAL_PHOTO) {
@@ -131,8 +132,8 @@ class B24botApi extends events_1.EventEmitter {
     onOAuth(req) {
         if ( ('code' in req.query) && ('state' in req.query) &&
             ('domain' in req.query) && ('member_id' in req.query) &&
-            ('scope' in req.query) && ('server_domain' in req.query) &&
-            ('url' in req) ) {
+            ('scope' in req.query) && ('server_domain' in req.query) /*&&
+            ('url' in req)*/ ) {
 
             let url = `https://${req.query['domain']}/oauth/token/?client_id=${req.clientId}&grant_type=authorization_code&client_secret=${req.clientSecret}&redirect_uri=${req.url}&code=${req.query['code']}&scope=${req.query['scope']}`;
 
