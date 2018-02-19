@@ -40,13 +40,13 @@ class B24botApi extends events_1.EventEmitter {
     }
 
     // На удаление приложения
-    onAppUninstall(req) {
+    onAppUninstall(req, cb) {
         if (!req.url) {
             console.error(`onAppUninstall not found req.url [${req.url}]`);
             return false;
         }
         req.method = 'imbot.unregister';
-        this.restCommand(req);
+        this.restCommand(req, cb);
     }
 
     // На установку приложения
