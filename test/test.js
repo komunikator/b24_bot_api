@@ -189,30 +189,6 @@ describe('B24 tests', () => {
             }
         };
 
-        // b24botApi.on('imbot.register', (err, data) => {
-        //     if (err) {
-        //         console.error(err);
-        //         return done(err);
-        //     }
-
-        //     data = JSON.parse(data);
-
-        //     console.log('imbot.register');
-        //     console.log(data);
-
-        //     if (data.result) {
-        //         console.log(data.result);
-        //         botId = data.result;
-        //         return done();
-        //     } else {
-        //         botId = null;
-        //         accessToken = false;
-        //         refreshToken = false;
-        //         return done('not found data.result');
-        //     }
-
-        // });
-
         function onAppInstall(err, data) {
             if (err) {
                 console.error(err);
@@ -258,3 +234,42 @@ describe('B24 tests', () => {
     });
     */
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ************************ other ************************
+// b24botApi.on('imbot.register', (err, data) => {
+//     if (err) {
+//         console.error(err);
+//         return done(err);
+//     }
+
+//     data = JSON.parse(data);
+
+//     console.log('imbot.register');
+//     console.log(data);
+
+//     if (data.result) {
+//         console.log(data.result);
+//         botId = data.result;
+//         return done();
+//     } else {
+//         botId = null;
+//         accessToken = false;
+//         refreshToken = false;
+//         return done('not found data.result');
+//     }
+
+// });
