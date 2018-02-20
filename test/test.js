@@ -41,6 +41,7 @@ function queryHandler(req) {
             case 'ONIMBOTMESSAGEADD':
                 req.message = req.body['data']['PARAMS']['MESSAGE'];
                 req.answer = `Ответ на сообщение ${req.message}`;
+                req.access_token = req.body.auth.access_token;
                 req.url = linkB24portal;
                 b24botApi.onImbotMessageAdd(req);
                 break;
