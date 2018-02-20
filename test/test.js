@@ -45,7 +45,20 @@ function queryHandler(req) {
                     access_token: req.body.auth.access_token
                 }
                 req.url = linkB24portal;
+
                 b24botApi.onImbotMessageAdd(req);
+
+                /*
+                // тест формирования ответа с нуля
+                let testReq = {
+                    url: linkB24portal,
+                    answer: 'Тестовое сообщение без запроса',
+                    settings: {
+                        access_token: accessToken
+                    }
+                };
+                b24botApi.onImbotMessageAdd(testReq);
+                */
                 break;
             case 'ONIMBOTDELETE':
                 b24botApi.onImbotDelete(req);
