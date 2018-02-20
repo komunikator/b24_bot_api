@@ -15,7 +15,9 @@ class B24botApi extends events_1.EventEmitter {
         if (!req.method || !req.settings.access_token) {
             return console.error(`Not method ${req.method} or access_token ${req.settings.access_token}`);
         }
+
         let queryUrl  = `${req.url}/rest/${req.method}`;
+
         console.log(`restCommand queryUrl: ${queryUrl}`);
 
         request.post(queryUrl, {form: req.settings}, (err, res, data) => {
@@ -75,14 +77,14 @@ class B24botApi extends events_1.EventEmitter {
     }
 
     // На добавление в чат
-    onImbotJoinChat(req, res) {
+    onImbotJoinChat(req) {
         let msg = "Я - чат бот. Буду помогать вам.\nЧтобы я ответил в чате, упомяните меня в сообщении или кликните на мой аватар.";
         this.sendMessage(msg, req);
     }
 
     // Входящее сообщение от пользователя
-    onImbotMessageAdd(req, res) {
-        this.sendMessage(req.answer, req);
+    onImbotMessageAdd(req) {
+        this.sendMessage(req);
     }
 
     // На удаление приложения
@@ -111,14 +113,14 @@ class B24botApi extends events_1.EventEmitter {
     }
 
     // ******************** Сообщение ******************** //
-    sendMessage(msg, req) {
-        let answer = {
-            "DIALOG_ID": req.body['data']['PARAMS']['DIALOG_ID'],
-            "MESSAGE": msg
+    sendMessage(req) {
+        req.settings['DIALOG_ID'] = req.body['data']['PARAMS']['DIALOG_ID'];
+        req.settings['MESSAGE'] = req.answer;
+        req.method = 'imbot.message.add';
 
-        };
+        console.log('DIALOG_ID: ', req.settings['DIALOG_ID']);
 
-        this.restCommand('imbot.message.add', answer, req.body["auth"]);
+        this.restCommand(req);
     }
 
     // ******************** OAuth авторизация ******************** //

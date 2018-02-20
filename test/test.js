@@ -41,7 +41,9 @@ function queryHandler(req) {
             case 'ONIMBOTMESSAGEADD':
                 req.message = req.body['data']['PARAMS']['MESSAGE'];
                 req.answer = `Ответ на сообщение ${req.message}`;
-                req.access_token = req.body.auth.access_token;
+                req.settings = {
+                    access_token: req.body.auth.access_token
+                }
                 req.url = linkB24portal;
                 b24botApi.onImbotMessageAdd(req);
                 break;
@@ -199,11 +201,12 @@ describe('B24 tests', () => {
             data = JSON.parse(data);
 
             console.log(`imbot.register data: ${data}`);
+            console.log(data);
 
             if (data.result) {
                 console.log(`data.result: ${data.result}`);
                 botId = data.result;
-                return done();
+                //return done();
             } else {
                 botId = null;
                 accessToken = false;
