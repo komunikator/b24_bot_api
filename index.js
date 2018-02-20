@@ -77,14 +77,16 @@ class B24botApi extends events_1.EventEmitter {
     }
 
     // На добавление в чат
-    onImbotJoinChat(req) {
-        let msg = "Я - чат бот. Буду помогать вам.\nЧтобы я ответил в чате, упомяните меня в сообщении или кликните на мой аватар.";
-        this.sendMessage(msg, req);
+    onImbotJoinChat(req, cb) {
+        req.answer = 'Я - чат бот. Буду помогать вам.\nЧтобы я ответил в чате, упомяните меня в сообщении или кликните на мой аватар.';
+        this.sendMessage(req, cb);
     }
 
-    // Входящее сообщение от пользователя
-    onImbotMessageAdd(req) {
-        this.sendMessage(req);
+    // На входящее сообщение
+    onImbotMessageAdd(req, cb) {
+        console.log('onImbotMessage add req ', req);
+        console.log(req);
+        //this.sendMessage(req, cb);
     }
 
     // На удаление приложения
@@ -105,21 +107,20 @@ class B24botApi extends events_1.EventEmitter {
     // ******************** Запросы для получения данных к bitrix24 ******************** //
     onB24request(req, cb) {
         if (!('settings' in req)) return console.error('B24 request. Not set settings');
-        if (!('method' in req.settings)) return console.error('B24 request. Not set method');
+        if (!('method' in req)) return console.error('B24 request. Not set method');
 
         this.restCommand(req, cb);
     }
 
     // ******************** Сообщение ******************** //
-    sendMessage(req) {
-        //req.settings['DIALOG_ID'] = 34;
-        req.settings['DIALOG_ID'] = req.body['data']['PARAMS']['DIALOG_ID'];
+    sendMessage(req, cb) {
+        req.settings['DIALOG_ID'] = req.settings['DIALOG_ID'] || req.body['data']['PARAMS']['DIALOG_ID'];
         req.settings['MESSAGE'] = req.answer;
         req.method = 'imbot.message.add';
 
         console.log('DIALOG_ID: ', req.settings['DIALOG_ID']);
 
-        this.restCommand(req);
+        this.restCommand(req, cb);
     }
 
     // ******************** OAuth авторизация ******************** //

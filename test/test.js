@@ -11,6 +11,8 @@ let clientId = 'local.5a8574efdd5835.52317922';
 let clientSecret = '49dg014HyDY6xr1K2X4nbbb51MvE0yzm1w0avhKUBLYEIL58pe';
 let myDomain = 'http://vkvote.kloud.one:8000';
 let linkB24portal = 'https://komunikator.bitrix24.ru';
+let resultRequest;
+let dialogId = 34;
 
 let pathToken = 'test/token.json';
 let accessToken;
@@ -36,6 +38,10 @@ function queryHandler(req) {
                 b24botApi.onAppInstall(req);
                 break;
             case 'ONIMBOTJOINCHAT':
+                req.settings = {
+                    DIALOG_ID: dialogId,
+                    access_token: req.body.auth.access_token
+                };
                 b24botApi.onImbotJoinChat(req);
                 break;
             case 'ONIMBOTMESSAGEADD':
@@ -46,19 +52,7 @@ function queryHandler(req) {
                 }
                 req.url = linkB24portal;
 
-                b24botApi.onImbotMessageAdd(req);
-
-                /*
-                // тест формирования ответа с нуля
-                let testReq = {
-                    url: linkB24portal,
-                    answer: 'Тестовое сообщение без запроса',
-                    settings: {
-                        access_token: accessToken
-                    }
-                };
-                b24botApi.onImbotMessageAdd(testReq);
-                */
+                b24botApi.sendMessage(req);
                 break;
             case 'ONIMBOTDELETE':
                 b24botApi.onImbotDelete(req);
@@ -236,14 +230,14 @@ describe('B24 tests', () => {
             return new Promise((resolve, reject) => {
                 let req = {
                     url: linkB24portal,
+                    method: 'task.item.list',
                     settings: {
                         access_token: accessToken,
-                        method: 'task.item.list',
                         ORDER: {
                             DEADLINE: 'desc'
                         },
                         FILTER: {
-                            RESPONSIBLE_ID: 34,
+                            RESPONSIBLE_ID: dialogId,
                             '<DEADLINE': '2018-01-30'
                         },
                         PARAMS: {
@@ -261,12 +255,12 @@ describe('B24 tests', () => {
                         console.error(err);
                         return done(err);
                     }
-        
                     data = JSON.parse(data);
-        
+
                     console.log(`get tasks data: ${data}`);
-        
+
                     if (data.result) {
+                        resultRequest = JSON.stringify(data);
                         console.log(`data.result: ${data.result}`);
                         return done();
                     } else {
@@ -278,6 +272,37 @@ describe('B24 tests', () => {
 
         getB24tasks();
     });
+
+    it('B24 test send message', (done) => {
+        if (!resultRequest) return done(`Not resultRequest ${resultRequest}`);
+
+        let req = {
+            url: linkB24portal,
+            answer: resultRequest,
+            settings: {
+                DIALOG_ID: dialogId,
+                access_token: accessToken
+            }
+        };
+
+        b24botApi.sendMessage(req, (err, data) => {
+            if (err) {
+                console.error(err);
+                return done(err);
+            }
+
+            data = JSON.parse(data);
+
+            console.log(`imbot.message.add data: ${data}`);
+
+            if (data.result) {
+                console.log(`data.result: ${data.result}`);
+                return done();
+            } else {
+                return done('imbot.message.add not found data.result');
+            }
+        });
+    })
 
     it('B24 test unregister', (done) => {
         if (!accessToken || !refreshToken || !botId) {
