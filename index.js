@@ -104,12 +104,10 @@ class B24botApi extends events_1.EventEmitter {
 
     // ******************** Запросы для получения данных к bitrix24 ******************** //
     onB24request(req, cb) {
-        if (!('params' in req)) return console.error('B24 request. Not set params');
-        if (!('method' in req.params)) return console.error('B24 request. Not set method');
+        if (!('settings' in req)) return console.error('B24 request. Not set settings');
+        if (!('method' in req.settings)) return console.error('B24 request. Not set method');
 
-        req.params.auth = req.body["auth"]["access_token"];
-
-        this.restCommand(req.params.method, req.params, req.body["auth"], cb);
+        this.restCommand(req, cb);
     }
 
     // ******************** Сообщение ******************** //

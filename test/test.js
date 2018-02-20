@@ -98,7 +98,7 @@ app.get('/install', function(req, res) {
     */
 });
 
-app.listen(8000, function() {
+app.listen(8008, function() {
     console.log('Listen port 8000');
 });
 
@@ -219,7 +219,7 @@ describe('B24 tests', () => {
             if (data.result) {
                 console.log(`data.result: ${data.result}`);
                 botId = data.result;
-                //return done();
+                return done();
             } else {
                 botId = null;
                 accessToken = false;
@@ -231,6 +231,53 @@ describe('B24 tests', () => {
         b24botApi.onAppInstall(req, onAppInstall);
     });
 
+    it('B24 test get tasks', (done) => {
+        function getB24tasks() {
+            return new Promise((resolve, reject) => {
+                let req = {
+                    url: linkB24portal,
+                    settings: {
+                        access_token: accessToken,
+                        method: 'task.item.list',
+                        ORDER: {
+                            DEADLINE: 'desc'
+                        },
+                        FILTER: {
+                            RESPONSIBLE_ID: 34,
+                            '<DEADLINE': '2018-01-30'
+                        },
+                        PARAMS: {
+                            NAV_PARAMS: {
+                                nPageSize: 1,
+                                iNumPage: 1
+                            }
+                        },
+                        SELECT: ['TITLE']
+                    }
+                };
+
+                b24botApi.onB24request(req, function(err, data) {
+                    if (err) {
+                        console.error(err);
+                        return done(err);
+                    }
+        
+                    data = JSON.parse(data);
+        
+                    console.log(`get tasks data: ${data}`);
+        
+                    if (data.result) {
+                        console.log(`data.result: ${data.result}`);
+                        return done();
+                    } else {
+                        return done('not found data.result');
+                    }
+                });
+            });
+        }
+
+        getB24tasks();
+    });
 
     it('B24 test unregister', (done) => {
         if (!accessToken || !refreshToken || !botId) {
