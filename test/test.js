@@ -180,6 +180,7 @@ describe('B24 tests', () => {
             url: linkB24portal,
             settings: {
                 access_token: accessToken,
+                refresh_token: refreshToken,
                 CODE: 'test3',
                 TYPE: 'B',
                 EVENT_MESSAGE_ADD: myDomain,
@@ -218,6 +219,13 @@ describe('B24 tests', () => {
                 botId = null;
                 accessToken = false;
                 refreshToken = false;
+                console.log('!!!!!!!!!!');
+                console.log('err ', err);
+                console.log('data ', data);
+
+                if (data.error && data.error == 'expired_token') {
+                    console.log('Протухли токены');
+                }
                 return done('not found data.result');
             }
         }
@@ -338,6 +346,6 @@ describe('B24 tests', () => {
             }
         }
 
-        b24botApi.onAppUninstall(req, onAppUninstall);
+        //b24botApi.onAppUninstall(req, onAppUninstall);
     });
 });
