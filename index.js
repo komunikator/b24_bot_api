@@ -23,7 +23,7 @@ class B24botApi extends events_1.EventEmitter {
         request.post(queryUrl, {form: req.settings}, (err, res, data) => {
             if (err) {
                 if (cb) {
-                    cb(err)
+                    cb(err);
                 }
 
                 this.emit(req.method, err);
@@ -124,7 +124,7 @@ class B24botApi extends events_1.EventEmitter {
     }
 
     // ******************** OAuth авторизация ******************** //
-    onOAuth(req) {
+    onOAuth(req, cb) {
         if ( ('code' in req.query) && ('state' in req.query) &&
             ('domain' in req.query) && ('member_id' in req.query) &&
             ('scope' in req.query) && ('server_domain' in req.query) &&
@@ -138,12 +138,19 @@ class B24botApi extends events_1.EventEmitter {
                 if (err) {
                     console.log('Bitrix24 request error: ' + err);
                     this.emit('oauth', err);
+
+                    if (cb) {
+                        cb(err);
+                    }
                 } else {
                     console.log(`B24 response oauth \n: ${data}`);
 
                     data = JSON.parse(data);
 
                     this.emit('oauth', null, data);
+                }
+                if (cb) {
+                    cb(null, data);
                 }
             });
         }
