@@ -18,12 +18,12 @@ class B24botApi extends events_1.EventEmitter {
 
         let queryUrl  = `${req.url}/rest/${req.method}`;
 
-        console.log(`restCommand queryUrl: ${queryUrl}`);
+        //console.log(`restCommand queryUrl: ${queryUrl}`);
 
         request.post(queryUrl, {form: req.settings}, (err, res, data) => {
             if (err) {
                 if (cb) {
-                    cb(err)
+                    cb(err);
                 }
 
                 this.emit(req.method, err);
@@ -31,13 +31,26 @@ class B24botApi extends events_1.EventEmitter {
                 return console.error(`Request err: ${err}`);
             }
 
-            console.log(`restCommand ${data}`);
+            //console.log(`restCommand ${data}`);
 
             this.emit(req.method, null, data);
 
             if (cb) {
                 cb(null, data)
             }
+        });
+    }
+
+    // На обновление токенов
+    onRefreshTokens(req, cb) {
+        if (!req) return console.log('On refresh tokens. Not set req');
+        if (!req.client_id)  return console.log('On refresh tokens. Not set client_id');
+        if (!req.client_secret) return console.log('On refresh tokens. Not set client_secret');
+        if (!req.refresh_token) return console.log('On refresh tokens. Not set refresh_tokens');
+
+        let query = `https://oauth.bitrix.info/oauth/token/?grant_type=refresh_token&client_id=${req.client_id}&client_secret=${req.client_secret}&refresh_token=${req.refresh_token}`;
+        request.get(query, (err, res, data) => {
+            if (cb) return cb(err, data);
         });
     }
 
@@ -124,7 +137,7 @@ class B24botApi extends events_1.EventEmitter {
     }
 
     // ******************** OAuth авторизация ******************** //
-    onOAuth(req) {
+    onOAuth(req, cb) {
         if ( ('code' in req.query) && ('state' in req.query) &&
             ('domain' in req.query) && ('member_id' in req.query) &&
             ('scope' in req.query) && ('server_domain' in req.query) &&
@@ -138,12 +151,19 @@ class B24botApi extends events_1.EventEmitter {
                 if (err) {
                     console.log('Bitrix24 request error: ' + err);
                     this.emit('oauth', err);
+
+                    if (cb) {
+                        cb(err);
+                    }
                 } else {
                     console.log(`B24 response oauth \n: ${data}`);
 
                     data = JSON.parse(data);
 
                     this.emit('oauth', null, data);
+                }
+                if (cb) {
+                    cb(null, data);
                 }
             });
         }
