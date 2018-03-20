@@ -97,8 +97,9 @@ class B24botApi extends events_1.EventEmitter {
 
     // На входящее сообщение
     onImbotMessageAdd(req, cb) {
-        console.log('onImbotMessage add req ', req);
-        console.log(req);
+        //console.log(req);
+        //console.log('onImbotMessage add req ', req);
+        //console.log(req);
         //this.sendMessage(req, cb);
     }
 
@@ -119,6 +120,8 @@ class B24botApi extends events_1.EventEmitter {
 
     // ******************** Запросы для получения данных к bitrix24 ******************** //
     onB24request(req, cb) {
+        //console.log('req: ', req);
+
         if (!('settings' in req)) return console.error('B24 request. Not set settings');
         if (!('method' in req)) return console.error('B24 request. Not set method');
 
