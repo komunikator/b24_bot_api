@@ -130,7 +130,11 @@ class B24botApi extends events_1.EventEmitter {
 
     // ******************** Сообщение ******************** //
     sendMessage(req, cb) {
-        req.settings['DIALOG_ID'] = req.settings['DIALOG_ID'] || req.body['data']['PARAMS']['DIALOG_ID'];
+        if (!req) return console.log('B24 sendMessage error: not found req');
+
+        if (req.body && req.body['data'] && req.body['data']['PARAMS'] && req.body['data']['PARAMS']['DIALOG_ID']) {
+            req.settings['DIALOG_ID'] = req.body['data']['PARAMS']['DIALOG_ID'];
+        }
         req.settings['MESSAGE'] = req.answer;
         req.method = 'imbot.message.add';
 
