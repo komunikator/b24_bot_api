@@ -134,7 +134,7 @@ class B24botApi extends events_1.EventEmitter {
         req.settings['MESSAGE'] = req.answer;
         req.method = 'imbot.message.add';
 
-        console.log('DIALOG_ID: ', req.settings['DIALOG_ID']);
+        //console.log('DIALOG_ID: ', req.settings['DIALOG_ID']);
 
         this.restCommand(req, cb);
     }
