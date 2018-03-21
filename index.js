@@ -21,6 +21,9 @@ class B24botApi extends events_1.EventEmitter {
         //console.log(`restCommand queryUrl: ${queryUrl}`);
 
         request.post(queryUrl, {form: req.settings}, (err, res, data) => {
+            //console.log('err ', err);
+            //console.log('data ', data);
+
             if (err) {
                 if (cb) {
                     cb(err);
@@ -91,8 +94,16 @@ class B24botApi extends events_1.EventEmitter {
 
     // На добавление в чат
     onImbotJoinChat(req, cb) {
-        req.answer = 'Я - чат бот. Буду помогать вам.\nЧтобы я ответил в чате, упомяните меня в сообщении или кликните на мой аватар.';
-        this.sendMessage(req, cb);
+        let request = {
+            url: req.url,
+            answer: 'Я - чат бот. Буду помогать вам.\nЧтобы я ответил в чате, упомяните меня в сообщении или кликните на мой аватар.',
+            settings: {
+                DIALOG_ID: req.body['data']['PARAMS']['FROM_USER_ID'],
+                BOT_ID: req.body['data']['BOT'][0].BOT_ID,
+                access_token: req.body['auth']['access_token']
+            }
+        };
+        this.sendMessage(request, cb);
     }
 
     // На входящее сообщение
@@ -131,14 +142,22 @@ class B24botApi extends events_1.EventEmitter {
     // ******************** Сообщение ******************** //
     sendMessage(req, cb) {
         if (!req) return console.log('B24 sendMessage error: not found req');
+        if (!req.url) return console.log('B24 sendMessage error: not found req.url');
+        if (!req.answer) return console.log('B24 sendMessage error: not found req.answer');
+        if (!req.settings) return console.log('B24 sendMessage error: not found req.settings');
+        if (!req.settings.access_token) return console.log('B24 sendMessage error: not found req.settings.access_token');
+        if (!req.settings.BOT_ID) return console.log('B24 sendMessage error: not found req.settings.BOT_ID');
 
-        if (req.body && req.body['data'] && req.body['data']['PARAMS'] && req.body['data']['PARAMS']['DIALOG_ID']) {
+        if (!req.settings['DIALOG_ID'] && (!req.body || !req.body['data'] || 
+            !req.body['data']['PARAMS'] || !req.body['data']['PARAMS']['DIALOG_ID']) ) {
+            return console.log('B24 sendMessage error: not found DIALOG_ID');
+        }
+
+        if (!req.settings['DIALOG_ID'] && req.body && req.body['data'] && req.body['data']['PARAMS'] && req.body['data']['PARAMS']['DIALOG_ID']) {
             req.settings['DIALOG_ID'] = req.body['data']['PARAMS']['DIALOG_ID'];
         }
         req.settings['MESSAGE'] = req.answer;
         req.method = 'imbot.message.add';
-
-        //console.log('DIALOG_ID: ', req.settings['DIALOG_ID']);
 
         this.restCommand(req, cb);
     }
