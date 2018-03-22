@@ -184,7 +184,12 @@ class B24botApi extends events_1.EventEmitter {
                 } else {
                     console.log(`B24 response oauth \n: ${data}`);
 
-                    data = JSON.parse(data);
+                    try {
+                        data = JSON.parse(data);
+                    } catch(err) {
+                        console.log('B24 bot api onOAuth JSON.parse error ', err);
+                        return cb(err);
+                    }
 
                     this.emit('oauth', null, data);
                 }
